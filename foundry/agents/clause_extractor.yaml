@@ -1,0 +1,13 @@
+
+name: clause_extractor
+model: gpt-4o
+instructions: Extract parties, dates, obligations, renewal, liability cap. Ground every fact in source chunk ID.
+tools:
+  - type: azure_ai_search
+    index: contracts-index-001
+    query_type: semantic
+    top_k: 8
+    filter: client_id eq '{client_id}' and acl has {user_oid}
+evaluation:
+  golden_set: ./eval/golden_qa_500.jsonl
+  metrics: [groundedness, faithfulness, extraction_f1]

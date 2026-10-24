@@ -1,0 +1,15 @@
+
+name: contract_classifier
+description: Classifies contract type with multilingual BERT + LLM fallback
+model: gpt-4o-mini
+instructions: |
+  You are Contract Classifier. Classify into [MSA, NDA, SOW, DPA, Vendor Agreement, Other].
+  Use jurisdiction_detector tool for locale. Return JSON {type, confidence, language}
+tools:
+  - type: custom
+    name: jurisdiction_detector
+    endpoint: ${JURISDICTION_ENDPOINT}
+validation:
+  schema: pydantic:ContractClass
+  confidence_threshold: 0.82
+  routing: auto -> SAP if >0.92 else human review

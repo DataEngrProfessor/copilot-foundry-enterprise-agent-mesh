@@ -1,0 +1,25 @@
+{
+  "name": "Legal Compliance Agent",
+  "description": "M365 Copilot declarative agent for contract Q&A",
+  "capabilities": [
+    "graph_connectors",
+    "generative_answers"
+  ],
+  "knowledge_sources": [
+    "sharepoint:contracts",
+    "dataverse:contracts_table",
+    "ai_search:contracts-index-001"
+  ],
+  "auth": {
+    "type": "EntraID",
+    "scopes": [
+      "Sites.Read.All",
+      "User.Read"
+    ]
+  },
+  "topics": [
+    "contract_intake",
+    "risk_check",
+    "compliance_qa"
+  ]
+}

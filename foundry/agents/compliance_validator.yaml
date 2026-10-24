@@ -1,0 +1,6 @@
+
+name: compliance_validator
+model: gpt-4o
+description: Validates GDPR, SOC2, DPA requirements
+grounding: AI Search + Dataverse compliance_rules table
+output: {compliant: bool, gaps: [], required_clauses: []}

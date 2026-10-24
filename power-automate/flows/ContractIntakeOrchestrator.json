@@ -1,0 +1,22 @@
+{
+  "name": "ContractIntakeOrchestrator",
+  "trigger": "When file created in SharePoint (Contracts library)",
+  "actions": [
+    "Scope_Try: Classify via Foundry contract_classifier (HTTP + Entra token from Key Vault)",
+    "Scope_Catch: If 429/5xx \u2192 Delay exponential backoff (Do Until 3x) \u2192 log to Dataverse exception table",
+    "ChildFlow_Extract: Call clause_extractor with client_id",
+    "Condition: confidence >0.92 \u2192 auto \u2192 SAP connector else \u2192 Create Approval (Teams Adaptive Card) + Dataverse audit",
+    "Finally: Track custom event to App Insights"
+  ],
+  "connectionReferences": [
+    "shared_sharepointonline",
+    "shared_commondataserviceforapps",
+    "shared_teams",
+    "custom_jurisdiction"
+  ],
+  "environmentVariables": [
+    "FOUNDRY_ENDPOINT",
+    "AI_SEARCH_ENDPOINT",
+    "SAP_ENDPOINT"
+  ]
+}

@@ -1,0 +1,6 @@
+
+name: risk_scorer
+model: gpt-4o
+instructions: Score risk 0-100 based on indemnity, liability, auto-renewal, data privacy clauses. Provide rationale + source.
+routing:
+  if risk > 70: route_to_human = true

@@ -1,0 +1,71 @@
+
+name: Power Platform ALM - Legal IDP
+
+on:
+  push:
+    branches: [dev, main]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  export-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Power Platform Tools
+        uses: microsoft/powerplatform-actions/actions-install@v1
+      - name: Export solution (dev)
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ secrets.PP_DEV_URL }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-name: LegalIDP
+          managed: false
+      - name: Unpack solution
+        uses: microsoft/powerplatform-actions/unpack-solution@v1
+        with:
+          solution-file: LegalIDP.zip
+          solution-folder: power-platform/src
+          overwrite: true
+      - name: Solution Checker
+        uses: microsoft/powerplatform-actions/checker@v1
+        with:
+          environment-url: ${{ secrets.PP_DEV_URL }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          rule-level: High
+
+  deploy-test:
+    if: github.ref == 'refs/heads/dev'
+    needs: export-and-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import to Test
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ secrets.PP_TEST_URL }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: power-platform/LegalIDP_managed.zip
+          use-deployment-settings-file: true
+          deployment-settings-file: power-platform/deploymentSettings.json
+
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    needs: export-and-check
+    environment: prod-approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import to Prod (managed)
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ secrets.PP_PROD_URL }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: power-platform/LegalIDP_managed.zip

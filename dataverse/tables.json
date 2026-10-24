@@ -1,0 +1,50 @@
+{
+  "tables": [
+    {
+      "name": "contract",
+      "columns": [
+        "contract_id",
+        "type",
+        "client_id",
+        "jurisdiction",
+        "risk_score",
+        "confidence",
+        "status",
+        "sap_id",
+        "created_by_graph_oid"
+      ]
+    },
+    {
+      "name": "exception_queue",
+      "columns": [
+        "error_code",
+        "flow_name",
+        "retry_count",
+        "payload",
+        "assigned_to"
+      ]
+    },
+    {
+      "name": "audit_log",
+      "columns": [
+        "action",
+        "actor_oid",
+        "confidence",
+        "human_override",
+        "timestamp",
+        "rbac_role"
+      ]
+    },
+    {
+      "name": "cost_tracking",
+      "columns": [
+        "dept",
+        "tokens",
+        "cost_usd",
+        "model",
+        "date"
+      ]
+    }
+  ],
+  "security": "Row-level via Entra group + Dataverse security roles, audit enabled"
+}

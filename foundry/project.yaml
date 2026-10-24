@@ -1,0 +1,12 @@
+
+project: legal-idp-foundry
+foundry_endpoint: ${FOUNDRY_ENDPOINT}
+orchestration: semantic_router
+agents: [contract_classifier, clause_extractor, risk_scorer, compliance_validator]
+observability:
+  app_insights: true
+  open_telemetry: true
+  metrics: [latency, token_usage, hallucination_rate, confidence]
+apim:
+  gateway: apim-ai-gateway
+  policies: [rate_limit_10k_tpm, pii_redaction, cost_tracking]

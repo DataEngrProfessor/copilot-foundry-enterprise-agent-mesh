@@ -1,0 +1,22 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "FOUNDRY_ENDPOINT",
+      "Value": "#{FOUNDRY_ENDPOINT}#"
+    },
+    {
+      "SchemaName": "AI_SEARCH_ENDPOINT",
+      "Value": "#{AI_SEARCH_ENDPOINT}#"
+    }
+  ],
+  "ConnectionReferences": [
+    {
+      "LogicalName": "shared_sharepointonline",
+      "ConnectionId": "#{SP_CONN}#"
+    },
+    {
+      "LogicalName": "shared_commondataserviceforapps",
+      "ConnectionId": "#{CDS_CONN}#"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+
+trigger: When user says "review contract" or file uploaded to Teams
+steps:
+  - call Power Automate: ContractIntakeOrchestrator (fileUrl, userOid)
+  - generative answer: grounded in AI Search with citation
+  - if confidence <0.85: show Adaptive Card approval → human queue
+  - else: auto post to SAP via custom connector

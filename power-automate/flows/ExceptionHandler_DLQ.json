@@ -1,0 +1,9 @@
+{
+  "name": "ExceptionHandler_DLQ",
+  "trigger": "When Dataverse row created in exception_queue",
+  "actions": [
+    "Send Teams message to Ops channel",
+    "Create Power BI alert",
+    "Retry button via Power Apps"
+  ]
+}

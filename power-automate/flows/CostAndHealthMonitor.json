@@ -1,0 +1,10 @@
+{
+  "name": "CostAndHealthMonitor",
+  "trigger": "Recurrence daily 6am",
+  "actions": [
+    "Query APIM logs (Log Analytics) for token usage per dept",
+    "Query App Insights for p95 latency & hallucination rate",
+    "Update Dataverse cost table",
+    "If cost > threshold \u2192 Adaptive Card to admin"
+  ]
+}
